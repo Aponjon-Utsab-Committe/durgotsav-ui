@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+.app-root {
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.main {
+  position: relative;
+  top: 57px;
+  height: calc(100vh - 82px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}

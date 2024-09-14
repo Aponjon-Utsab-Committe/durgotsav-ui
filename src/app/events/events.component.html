@@ -1,0 +1,15 @@
+<div class="row">
+  <div
+    class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-3"
+    *ngFor="let e of events"
+  >
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ e.name }}</h5>
+        <p class="card-text"><b>Venue :</b> {{ e.venue }}</p>
+        <p class="card-text"><b>From :</b> {{ e.from | date : "medium" }}</p>
+        <p class="card-text"><b>To :</b> {{ e.to | date : "medium" }}</p>
+      </div>
+    </div>
+  </div>
+</div>
