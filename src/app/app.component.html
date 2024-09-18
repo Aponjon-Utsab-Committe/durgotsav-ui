@@ -1,4 +1,4 @@
-<div class="container app-root">
+<div class="container-fluid app-root">
   <nav class="fixed-top navbar navbar-expand-lg border-bottom bg-white mx-0">
     <div class="container-fluid">
       <a class="navbar-brand" [routerLink]="['/']">Aponjon Utsav Committee</a>
@@ -14,7 +14,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/events']">Events</a>
           </li>
@@ -34,6 +34,9 @@
               <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" href="#">Donate</a></li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/signin']">Sign In</a>
           </li>
         </ul>
       </div>
