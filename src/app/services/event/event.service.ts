@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+
 import axios from 'axios';
 
 @Injectable({
@@ -8,6 +10,6 @@ export class EventService {
   constructor() {}
 
   getEvents() {
-    return axios.get('http://localhost:3000/api/events');
+    return axios.get(`events`);
   }
 }

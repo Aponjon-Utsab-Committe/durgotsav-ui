@@ -1,4 +1,8 @@
 <div class="row">
+  <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-3">
+    <zxing-scanner (scanSuccess)="onScan($event)"></zxing-scanner>
+    <a [href]="scannedData">{{scannedData}}</a>
+  </div> -->
   <div
     class="col-lg-3 col-md-4 col-sm-6 col-xs-12 mb-3"
     *ngFor="let e of events"

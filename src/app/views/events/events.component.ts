@@ -8,6 +8,7 @@ import { EventService } from '../../services/event/event.service';
 })
 export class EventsComponent implements OnInit {
   events: Array<any> = new Array();
+  scannedData: string = "";
 
   constructor(private eventService: EventService) {}
 
@@ -15,5 +16,10 @@ export class EventsComponent implements OnInit {
     this.eventService.getEvents().then(({ data }) => {
       this.events = data.list;
     });
+  }
+
+  onScan(e: any){
+    this.scannedData = e;
+    console.log(e);
   }
 }
