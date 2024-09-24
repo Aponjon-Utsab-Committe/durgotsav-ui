@@ -10,19 +10,26 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class SigninComponent implements OnInit {
   email: string = '';
   password: string = '';
+  signinError: string = '';
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.signinError = "";
+  }
 
   signin() {
+    this.signinError = "";
     if (this.email && this.password) {
       this.authService
         .signin(this.email, this.password)
         .then(({ data }) => {
-          console.log(data);
+          localStorage.setItem('token', data.token);
         })
-        .catch((err) => {});
+        .catch((err) => {
+          this.signinError = err.response.data.message || 'Something went wrong';
+          console.error(err);
+        });
     }
   }
 }

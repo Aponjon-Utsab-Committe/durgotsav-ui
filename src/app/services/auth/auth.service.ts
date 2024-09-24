@@ -9,6 +9,6 @@ export class AuthService {
   constructor() {}
 
   signin(email: string, password: string) {
-    return axios.get(`${environment.apiEndpoint}/users/signin`);
+    return axios.post(`/users/signin`, { email, password });
   }
 }
