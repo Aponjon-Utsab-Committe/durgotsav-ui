@@ -2,6 +2,10 @@
   <nav class="fixed-top navbar navbar-expand-lg border-bottom bg-white mx-0">
     <div class="container-fluid">
       <a class="navbar-brand" [routerLink]="['/']">Aponjon Utsav Committee</a>
+      <span *ngIf="isLoggedIn">
+        {{ loggedInUser.first_name }} {{ loggedInUser.last_name }} |
+        {{ loggedInUser.role }}
+      </span>
       <button
         class="navbar-toggler"
         type="button"
@@ -35,17 +39,32 @@
               <li><a class="dropdown-item" href="#">Donate</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/signin']">Sign In</a>
-          </li>
+          <ng-container *ngIf="!isLoggedIn">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/signin']">Sign In</a>
+            </li>
+          </ng-container>
+          <ng-container *ngIf="isLoggedIn">
+            <li class="nav-item">
+              <a class="nav-link" href="javscript:void(0);">Change Password</a>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-link" (click)="signout()">Sign Out</button>
+            </li>
+          </ng-container>
         </ul>
       </div>
     </div>
   </nav>
-  <div class="main p-3">
+  <div
+    class="main px-3 pb-3"
+    [class]="isLoggedIn ? 'pt-sm-3 mt-sm-0 pt-5 mt-2' : 'pt-3'"
+  >
     <router-outlet></router-outlet>
   </div>
-  <div class="fixed-bottom container-fluid text-center border-top bg-white mx-0">
+  <div
+    class="fixed-bottom container-fluid text-center border-top bg-white mx-0"
+  >
     AUC 2024
   </div>
 </div>

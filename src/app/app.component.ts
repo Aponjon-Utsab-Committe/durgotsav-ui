@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 import { AuthService } from './services/auth/auth.service';
 
@@ -9,17 +9,27 @@ import { AuthService } from './services/auth/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'current-directory';
   poll: any;
+  isLoggedIn: boolean = false;
+  loggedInUser: any = {};
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.checkToken();
+    this.isLoggedIn = this.authService.isLoggedIn;
+    this.loggedInUser = this.authService.userInfo;
+    console.log(this.isLoggedIn, this.loggedInUser);
     this.poll = setInterval(() => {
-      console.log('Check login status');
+      // console.log('Check login status');
       this.authService.checkToken();
-    }, 300000);
+      this.isLoggedIn = this.authService.isLoggedIn;
+      this.loggedInUser = this.authService.userInfo;
+    }, 5000);
+  }
+
+  signout() {
+    this.authService.signout();
   }
 
   ngOnDestroy(): void {
@@ -27,4 +37,5 @@ export class AppComponent implements OnInit, OnDestroy {
       clearInterval(this.poll);
     }
   }
+
 }

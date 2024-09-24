@@ -25,20 +25,30 @@ export class AuthService {
     } else {
       const decoded = jwtDecode(token) as any;
       if (decoded && decoded.org_name == environment.orgName) {
-        this.userInfo = { ...decoded };
         // console.log('[2]', decoded);
         this.isLoggedIn = false;
         const expAt = (decoded.exp || 0) * 1000;
         const epoch = Date.now();
 
-        if(epoch >= expAt) {
+        if (epoch >= expAt) {
+          // console.log('[3]');
           this.isLoggedIn = false;
           localStorage.removeItem('token');
           this.router.navigate(['/']);
+        } else {
+          // console.log('[4]');
+          this.isLoggedIn = true;
+          this.userInfo = { ...decoded };
         }
       } else {
+        // console.log('[5]');
         this.isLoggedIn = false;
       }
     }
+  }
+
+  signout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/']);
   }
 }
