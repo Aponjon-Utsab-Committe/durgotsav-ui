@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -12,22 +13,24 @@ export class SigninComponent implements OnInit {
   password: string = '';
   signinError: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.signinError = "";
+    this.signinError = '';
   }
 
   signin() {
-    this.signinError = "";
+    this.signinError = '';
     if (this.email && this.password) {
       this.authService
         .signin(this.email, this.password)
         .then(({ data }) => {
           localStorage.setItem('token', data.token);
+          this.router.navigate(['/']);
         })
         .catch((err) => {
-          this.signinError = err.response.data.message || 'Something went wrong';
+          this.signinError =
+            err.response.data.message || 'Something went wrong';
           console.error(err);
         });
     }
