@@ -1,1 +1,179 @@
-<p>manage-event works!</p>
+<div class="row">
+  <div class="col-9 mb-2">
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="onlyActive"
+        [checked]="onlyActive"
+        [(ngModel)]="onlyActive"
+        (change)="getEvents()"
+      />
+      <label class="form-check-label" for="onlyActive"
+        >Only active events</label
+      >
+    </div>
+  </div>
+  <div class="col-3 text-end mb-2">
+    <button class="btn btn-success">
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-responsive table-striped">
+          <thead>
+            <th>
+              <span class="d-block d-sm-none">Event</span>
+              <span class="d-none d-sm-block">Name</span>
+            </th>
+            <th class="d-none d-sm-table-cell">Venue</th>
+            <th class="d-none d-sm-table-cell">From-To</th>
+            <th class="d-none d-sm-table-cell text-center">Status</th>
+            <!-- <th>Created</th>
+            <th>Updated</th> -->
+            <th class="d-none d-sm-table-cell text-center">Action</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of events">
+              <td>
+                {{ e.name }}
+                <span class="d-inline-block d-sm-none float-end">
+                  <span
+                    class="badge"
+                    [class]="
+                      e.status == 'ACTIVE'
+                        ? 'text-bg-success'
+                        : 'text-bg-secondary'
+                    "
+                    >{{ e.status }}</span
+                  >
+                </span>
+                <span class="d-block d-sm-none">{{ e.venue }}</span>
+                <span class="d-block d-sm-none">
+                  From {{ e.from | date : "mediumDate" }} To
+                  {{ e.to | date : "mediumDate" }}
+                </span>
+
+                <div class="btn-group d-block d-sm-none" role="group">
+                  <button class="btn btn-sm btn-info">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    *ngIf="role == 'ADMIN' && e.status == 'ACTIVE'"
+                  >
+                    <i class="fa fa-pen"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteConfirmation"
+                    (click)="promtDelete(e)"
+                    *ngIf="role == 'ADMIN' && e.status == 'ACTIVE'"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+              <td class="d-none d-sm-table-cell">{{ e.venue }}</td>
+              <td class="d-none d-sm-table-cell">
+                {{ e.from | date : "medium" }} - {{ e.to | date : "medium" }}
+              </td>
+              <td class="d-none d-sm-table-cell text-center">
+                <span
+                  class="badge"
+                  [class]="
+                    e.status == 'ACTIVE'
+                      ? 'text-bg-success'
+                      : 'text-bg-secondary'
+                  "
+                  >{{ e.status }}</span
+                >
+              </td>
+              <!-- <td class="d-none d-sm-table-cell">
+                {{ e.created_at | date : "medium" }}
+              </td>
+              <td class="d-none d-sm-table-cell">
+                {{ e.updated_at | date : "medium" }}
+              </td> -->
+              <td class="d-none d-sm-table-cell text-center">
+                <button class="btn btn-sm btn-info">
+                  <i class="fa fa-eye"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-primary ms-1"
+                  *ngIf="role == 'ADMIN' && e.status === 'ACTIVE'"
+                >
+                  <i class="fa fa-pen"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-danger ms-1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteConfirmation"
+                  (click)="promtDelete(e)"
+                  *ngIf="role == 'ADMIN' && e.status === 'ACTIVE'"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="deleteConfirmation"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Confirm</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete event {{ selectedEvent?.name }}?
+      </div>
+      <div class="modal-footer">
+        <span class="text-danger mr-auto">{{ this.message }}</span>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          [disabled]="busy"
+        >
+          No
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="busy"
+          (click)="deleteEvent()"
+        >
+          <div
+            class="spinner-border spinner-border-sm text-light"
+            role="status"
+            *ngIf="busy"
+          ></div>
+          Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

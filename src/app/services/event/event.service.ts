@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 import axios from 'axios';
 
@@ -9,7 +8,17 @@ import axios from 'axios';
 export class EventService {
   constructor() {}
 
-  getEvents() {
-    return axios.get(`events`);
+  getEvents(status = 'ACTIVE') {
+    return axios.get(`events`, {
+      params: {
+        status,
+      },
+    });
+  }
+
+  updateEvent(eventId: number, eventData: any) {
+    return axios.put(`events/${eventId}`, eventData, {
+      headers: { 'x-access-token': localStorage.getItem('token') },
+    });
   }
 }
