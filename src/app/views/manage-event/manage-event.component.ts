@@ -50,6 +50,7 @@ export class ManageEventComponent implements OnInit {
         setTimeout(() => {
           $('#deleteConfirmation').hide();
           $('.modal-backdrop').remove();
+          this.message = "";
         }, 2000);
         this.getEvents();
       })
