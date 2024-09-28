@@ -13,12 +13,13 @@ import { SigninComponent } from './views/signin/signin.component';
 /* ---- axios start ------ */
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { ManageEventComponent } from './views/manage-event/manage-event.component';
 
 axios.defaults.baseURL = environment.apiEndpoint;
 /* ---- axios end ------ */
 
 @NgModule({
-  declarations: [AppComponent, EventsComponent, SigninComponent],
+  declarations: [AppComponent, EventsComponent, SigninComponent, ManageEventComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

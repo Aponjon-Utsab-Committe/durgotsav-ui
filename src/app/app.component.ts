@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.authService.checkToken();
       this.isLoggedIn = this.authService.isLoggedIn;
       this.loggedInUser = this.authService.userInfo;
-    }, 5000);
+    }, 1000);
   }
 
   signout() {

@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EventsComponent } from '../views/events/events.component';
 import { SigninComponent } from '../views/signin/signin.component';
+import { ManageEventComponent } from '../views/manage-event/manage-event.component';
+import { AuthGuard } from '../guard/auth.guard';
 
 const routes: Routes = [
-  { path: 'events', component: EventsComponent },
   { path: 'signin', component: SigninComponent },
+  { path: 'events', component: EventsComponent },
+  { path: 'events/manage', component: ManageEventComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
