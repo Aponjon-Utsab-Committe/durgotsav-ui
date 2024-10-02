@@ -63,7 +63,10 @@
                 </span>
 
                 <div class="btn-group d-block d-sm-none" role="group">
-                  <button class="btn btn-sm btn-info">
+                  <button
+                    class="btn btn-sm btn-info"
+                    (click)="this.router.navigate(['events', e.id])"
+                  >
                     <i class="fa fa-eye"></i>
                   </button>
                   <button
@@ -114,7 +117,10 @@
                 {{ e.updated_at | date : "medium" }}
               </td> -->
               <td class="d-none d-sm-table-cell text-center">
-                <button class="btn btn-sm btn-info">
+                <button
+                  class="btn btn-sm btn-info"
+                  (click)="this.router.navigate(['events', e.id])"
+                >
                   <i class="fa fa-eye"></i>
                 </button>
                 <button

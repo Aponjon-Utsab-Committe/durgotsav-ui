@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { EventService } from 'src/app/services/event/event.service';
@@ -11,6 +12,7 @@ import { EventService } from 'src/app/services/event/event.service';
 })
 export class ManageEventComponent implements OnInit {
   onlyActive: boolean = true;
+  router: Router;
   events: Array<any> = new Array();
   total: number = 0;
   selectedEvent: any;
@@ -30,7 +32,8 @@ export class ManageEventComponent implements OnInit {
   message: string = '';
   type: 'SUCCESS' | 'ERROR' | 'INFO' | '' = '';
 
-  constructor(private eventService: EventService, authService: AuthService) {
+  constructor(private eventService: EventService, authService: AuthService, _router: Router) {
+    this.router = _router;
     this.role = authService.userInfo?.role;
   }
 

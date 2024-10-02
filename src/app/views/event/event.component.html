@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body" *ngIf="event">
+        <h5 class="card-title">{{ event.name }}</h5>
+        <p class="card-text mb-1"><b>Venue :</b> {{ event.venue }}</p>
+        <p class="card-text mb-1">
+          <b>From :</b> {{ event.from | date : "medium" }}
+        </p>
+        <p class="card-text"><b>To :</b> {{ event.to | date : "medium" }}</p>
+        <hr />
+        <h6>Activities</h6>
+        <ol>
+          <li *ngFor="let a of activities">
+            {{ a.name }} ( {{ a.from | date : "short" }})
+          </li>
+        </ol>
+        <hr />
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-lg btn-primary">
+            <i class="fa fa-qrcode"></i>
+          </button>
+          <button type="button" class="btn btn-lg btn-info">
+            <i class="fa fa-table"></i>
+          </button>
+          <button type="button" class="btn btn-lg btn-success">
+            <i class="fa fa-file-excel"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

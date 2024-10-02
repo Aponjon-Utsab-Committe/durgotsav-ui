@@ -28,6 +28,10 @@ export class EventService {
     });
   }
 
+  getEvent(eventId: number) {
+    return axios.get(`events/${eventId}`);
+  }
+
   updateEvent(eventId: number, eventData: any) {
     return axios.put(`events/${eventId}`, eventData, {
       headers: { 'x-access-token': localStorage.getItem('token') },
