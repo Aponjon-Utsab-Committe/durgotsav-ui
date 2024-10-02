@@ -16,7 +16,12 @@
     </div>
   </div>
   <div class="col-3 text-end mb-2">
-    <button class="btn btn-success">
+    <button
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#saveEvent"
+      (click)="selectedEvent = null;"
+    >
       <i class="fa fa-plus"></i>
     </button>
   </div>
@@ -64,6 +69,15 @@
                   <button
                     class="btn btn-sm btn-primary"
                     *ngIf="role == 'ADMIN' && e.status == 'ACTIVE'"
+                    data-bs-toggle="modal"
+                    data-bs-target="#saveEvent"
+                    (click)="
+                      selectedEvent = e;
+                      name = e.name;
+                      venue = e.venue;
+                      from = e.from;
+                      to = e.to
+                    "
                   >
                     <i class="fa fa-pen"></i>
                   </button>
@@ -71,7 +85,7 @@
                     class="btn btn-sm btn-danger"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteConfirmation"
-                    (click)="promtDelete(e)"
+                    (click)="selectedEvent = e"
                     *ngIf="role == 'ADMIN' && e.status == 'ACTIVE'"
                   >
                     <i class="fa fa-trash"></i>
@@ -106,6 +120,15 @@
                 <button
                   class="btn btn-sm btn-primary ms-1"
                   *ngIf="role == 'ADMIN' && e.status === 'ACTIVE'"
+                  data-bs-toggle="modal"
+                  data-bs-target="#saveEvent"
+                  (click)="
+                    selectedEvent = e;
+                    name = e.name;
+                    venue = e.venue;
+                    from = e.from;
+                    to = e.to
+                  "
                 >
                   <i class="fa fa-pen"></i>
                 </button>
@@ -113,7 +136,7 @@
                   class="btn btn-sm btn-danger ms-1"
                   data-bs-toggle="modal"
                   data-bs-target="#deleteConfirmation"
-                  (click)="promtDelete(e)"
+                  (click)="selectedEvent = e"
                   *ngIf="role == 'ADMIN' && e.status === 'ACTIVE'"
                 >
                   <i class="fa fa-trash"></i>
@@ -131,7 +154,6 @@
   class="modal fade"
   id="deleteConfirmation"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
   aria-hidden="true"
   data-bs-backdrop="static"
   data-bs-keyboard="false"
@@ -139,7 +161,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5">Confirm</h1>
+        <h1 class="modal-title fs-5">Confirm Cancellation</h1>
         <button
           type="button"
           class="btn-close"
@@ -148,10 +170,18 @@
         ></button>
       </div>
       <div class="modal-body">
-        Are you sure you want to delete event {{ selectedEvent?.name }}?
+        Are you sure you want to cancel event {{ selectedEvent?.name }}?
       </div>
       <div class="modal-footer">
-        <span class="text-danger mr-auto">{{ this.message }}</span>
+        <span
+          class="mr-auto"
+          [class]="{
+            'text-danger': type == 'ERROR',
+            'text-success': type == 'SUCCESS',
+            'text-info': type == 'INFO'
+          }"
+          >{{ this.message }}</span
+        >
         <button
           type="button"
           class="btn btn-secondary"
@@ -174,6 +204,133 @@
           Yes
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade modal-lg"
+  id="saveEvent"
+  tabindex="-1"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">
+          {{ selectedEvent ? "Add" : "Edit" }} Event
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          (click)="reset()"
+          aria-label="Close"
+          [disabled]="busy"
+        ></button>
+      </div>
+      <form ngNativeValidate (submit)="onSaveEvent()" #saveEvent>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col mb-2">
+              <div class="form-group">
+                <label for="name"
+                  >Event Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="name"
+                  name="name"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-2">
+              <div class="form-group">
+                <label for="venue"
+                  >Event Venue <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  name="venue"
+                  class="form-control"
+                  [(ngModel)]="venue"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-12 col-md-6 mb-2">
+              <div class="form-group">
+                <label for="from"
+                  >Event Starts From <span class="text-danger">*</span></label
+                >
+                <input
+                  type="date"
+                  name="from"
+                  class="form-control"
+                  [ngModel]="from | date : 'yyyy-MM-dd'"
+                  (ngModelChange)="from = $event"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col col-sm-12 col-md-6 mb-2">
+              <div class="form-group">
+                <label for="to"
+                  >Event Ends On <span class="text-danger">*</span></label
+                >
+                <input
+                  type="date"
+                  name="to"
+                  class="form-control"
+                  [ngModel]="to | date : 'yyyy-MM-dd'"
+                  (ngModelChange)="to = $event"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span
+            class="mr-auto"
+            [class]="{
+              'text-danger': type == 'ERROR',
+              'text-success': type == 'SUCCESS',
+              'text-info': type == 'INFO'
+            }"
+            >{{ this.message }}</span
+          >
+          <button
+            type="reset"
+            id="resetSaveForm"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="reset()"
+            [disabled]="busy"
+          >
+            Cancel
+          </button>
+          <button type="reset" class="btn btn-light" [disabled]="busy">
+            Reset
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="busy">
+            <div
+              class="spinner-border spinner-border-sm text-light"
+              role="status"
+              *ngIf="busy"
+            ></div>
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

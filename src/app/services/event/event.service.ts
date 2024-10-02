@@ -8,6 +8,14 @@ import axios from 'axios';
 export class EventService {
   constructor() {}
 
+  createEvent(eventData: any) {
+    return axios.post(
+      `events`,
+      eventData,
+      { headers: { 'x-access-token': localStorage.getItem('token') } }
+    );
+  }
+
   getEvents(status = 'ACTIVE') {
     return axios.get(`events`, {
       params: {

@@ -19,7 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.checkToken();
     this.isLoggedIn = this.authService.isLoggedIn;
     this.loggedInUser = this.authService.userInfo;
-    console.log(this.isLoggedIn, this.loggedInUser);
+    // console.log(this.isLoggedIn, this.loggedInUser);
     this.poll = setInterval(() => {
       // console.log('Check login status');
       this.authService.checkToken();

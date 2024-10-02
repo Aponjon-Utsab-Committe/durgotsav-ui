@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   orgName: "Aponjon Utsav Committee",
-  apiEndpoint: 'http://192.168.29.86:3000/api/',
+  apiEndpoint: 'http://192.168.1.9:3000/api/',
 };
 
 /*
