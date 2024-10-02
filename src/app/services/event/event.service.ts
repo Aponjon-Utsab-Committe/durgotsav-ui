@@ -21,8 +21,8 @@ export class EventService {
   ) {
     return axios.get(`events`, {
       params: {
-        page,
-        pageSize,
+        page_no: page,
+        page_size: pageSize,
         status,
       },
     });
