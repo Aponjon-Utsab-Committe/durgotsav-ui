@@ -12,9 +12,12 @@ import { EventService } from 'src/app/services/event/event.service';
 export class ManageEventComponent implements OnInit {
   onlyActive: boolean = true;
   events: Array<any> = new Array();
+  total: number = 0;
   selectedEvent: any;
 
   role: string = '';
+  page: number = 1;
+  pageSize: number = 10;
 
   name!: string;
   venue!: string;
@@ -35,11 +38,17 @@ export class ManageEventComponent implements OnInit {
     this.getEvents();
   }
 
-  getEvents() {
+  getEvents(append: boolean = false) {
+    this.page = append ? this.page + 1 : 1;
     this.eventService
-      .getEvents(this.onlyActive ? 'ACTIVE' : '')
+      .getEvents(this.page, this.pageSize, this.onlyActive ? 'ACTIVE' : '')
       .then(({ data }) => {
-        this.events = data.list;
+        if (append) {
+          this.events = this.events.concat(data.list);
+        } else {
+          this.events = data.list;
+        }
+        this.total = data.total;
       });
   }
 

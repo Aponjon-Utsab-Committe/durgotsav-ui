@@ -9,16 +9,20 @@ export class EventService {
   constructor() {}
 
   createEvent(eventData: any) {
-    return axios.post(
-      `events`,
-      eventData,
-      { headers: { 'x-access-token': localStorage.getItem('token') } }
-    );
+    return axios.post(`events`, eventData, {
+      headers: { 'x-access-token': localStorage.getItem('token') },
+    });
   }
 
-  getEvents(status = 'ACTIVE') {
+  getEvents(
+    page: number = 1,
+    pageSize: number = 10,
+    status: string = 'ACTIVE'
+  ) {
     return axios.get(`events`, {
       params: {
+        page,
+        pageSize,
         status,
       },
     });

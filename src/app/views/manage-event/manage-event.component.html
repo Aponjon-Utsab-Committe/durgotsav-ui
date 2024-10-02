@@ -20,7 +20,7 @@
       class="btn btn-success"
       data-bs-toggle="modal"
       data-bs-target="#saveEvent"
-      (click)="selectedEvent = null;"
+      (click)="selectedEvent = null"
     >
       <i class="fa fa-plus"></i>
     </button>
@@ -145,6 +145,14 @@
             </tr>
           </tbody>
         </table>
+        <button
+          class="btn btn-link"
+          *ngIf="total > events.length"
+          (click)="getEvents(true)"
+        >
+          <i class="fa-solid fa-chevron-down"></i> View More
+        </button>
+        {{ total }} | {{ events.length }}
       </div>
     </div>
   </div>
