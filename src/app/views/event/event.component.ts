@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
+import { utils, writeFile } from 'xlsx';
 import { EventService } from 'src/app/services/event/event.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { EventService } from 'src/app/services/event/event.service';
 })
 export class EventComponent implements OnInit {
   id!: number;
-  mode: 'INFO' | 'COUPONS' | 'COUPON' = 'COUPONS';
+  mode: 'INFO' | 'COUPONS' | 'COUPON' = 'INFO';
   event: any;
   activities: Array<any> = new Array();
   coupons: Array<any> = new Array();
@@ -56,11 +57,35 @@ export class EventComponent implements OnInit {
       });
   }
 
-  search() {
+  filter() {
     this.couponsFiltered = _.filter(this.coupons, (c) => {
       return (
         c.number.indexOf(this.query) > -1 || c.owner.indexOf(this.query) > -1
       );
     });
+  }
+
+  download() {
+    const header = ['#', 'Owner', 'Head Count', 'Status'];
+    let coupons: any = _.map(this.coupons, (c: any, i: number) => {
+      const coupon: any = {
+        '#': c.number,
+        Owner: c.owner,
+        'Head Count': c.user_count,
+        Status: c.status,
+      };
+      for (let a of c.usage) {
+        coupon[a.name] = a.count;
+        if(i == 0){
+          header.push(a.name);
+        }
+      }
+      return coupon;
+    });
+
+    const worksheet = utils.json_to_sheet(coupons, { header });
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, 'Coupons');
+    writeFile(workbook, 'Coupons.xlsx', { compression: true });
   }
 }
