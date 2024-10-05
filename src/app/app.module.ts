@@ -15,12 +15,13 @@ import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { ManageEventComponent } from './views/manage-event/manage-event.component';
 import { EventComponent } from './views/event/event.component';
+import { TimesPipe } from './pipes/times/times.pipe'; 
 
 axios.defaults.baseURL = environment.apiEndpoint;
 /* ---- axios end ------ */
 
 @NgModule({
-  declarations: [AppComponent, EventsComponent, SigninComponent, ManageEventComponent, EventComponent],
+  declarations: [AppComponent, EventsComponent, SigninComponent, ManageEventComponent, EventComponent, TimesPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

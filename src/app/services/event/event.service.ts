@@ -37,4 +37,10 @@ export class EventService {
       headers: { 'x-access-token': localStorage.getItem('token') },
     });
   }
+
+  getCoupons(eventId: number) {
+    return axios.get(`events/${eventId}/coupons`, {
+      headers: { 'x-access-token': localStorage.getItem('token') },
+    });
+  }
 }

@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="mode === 'INFO'">
   <div class="col">
     <div class="card">
       <div class="card-body" *ngIf="event">
@@ -17,16 +17,69 @@
         </ol>
         <hr />
         <div class="btn-group" role="group">
-          <button type="button" class="btn btn-lg btn-primary">
+          <button type="button" class="btn btn-lg btn-warning">
             <i class="fa fa-qrcode"></i>
           </button>
-          <button type="button" class="btn btn-lg btn-info">
+          <button type="button" class="btn btn-lg btn-success">
+            <i class="fa fa-magnifying-glass"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-lg btn-info"
+            (click)="getCoupons(); mode = 'COUPONS'"
+          >
             <i class="fa fa-table"></i>
           </button>
-          <button type="button" class="btn btn-lg btn-success">
+          <button type="button" class="btn btn-lg btn-primary">
             <i class="fa fa-file-excel"></i>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="mode === 'COUPONS'">
+  <div class="col">
+    <div class="card">
+      <div class="card-body" *ngIf="event">
+        <h5 class="card-title d-inline">{{ event.name }}</h5>
+        <button class="btn btn-link float-end pt-0" (click)="mode = 'INFO'">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+        <hr />
+        <input
+          type="text"
+          class="form-control mb-2"
+          [(ngModel)]="query"
+          (keyup)="search()"
+          placeholder="Search coupon"
+        />
+        <table class="table table-striped table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Owner</th>
+              <th scope="col">Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of couponsFiltered">
+              <th>{{ c.number }}</th>
+              <td>{{ c.owner }} ({{ c.user_count }})</td>
+              <td>
+                <span *ngFor="let a of c.usage" class="d-block">
+                  <span *ngFor="let i of c.user_count | times">
+                    <i
+                      class="fa-circle me-1"
+                      [class]="{ 'fa-regular': a.count < 1, fa: a.count >= i }"
+                    ></i>
+                  </span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
