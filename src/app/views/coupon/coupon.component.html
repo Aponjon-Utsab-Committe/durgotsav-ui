@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-body" *ngIf="coupon">
+        <h5 class="card-title">{{ coupon.event }}</h5>
+        <p class="card-text mb-1"><b>Venue :</b> {{ coupon.venue }}</p>
+
+        <hr />
+
+        <h5 class="card-title">
+          Coupon # <b>{{ coupon.number }}</b>
+        </h5>
+
+        <hr />
+
+        <ng-container *ngFor="let usage of coupon.usage">
+          <p class="card-text mb-1">
+            <b>{{ usage.name }}</b>
+          </p>
+
+          <span *ngFor="let i of coupon.user_count | times">
+            <i
+              class="fa fa-3x fa-circle me-2 text-secondary"
+              *ngIf="i < usage.count"
+            ></i>
+
+            <i
+              class="fa fa-3x fa-circle me-2 text-primary"
+              style="cursor: pointer"
+              (click)="select(usage, '-')"
+              *ngIf="
+                i > usage.count && i < usage.count + (usage.selected || 0) + 1
+              "
+            ></i>
+
+            <i
+              class="fa-regular fa-3x fa-circle me-2 text-primary"
+              style="cursor: pointer"
+              (click)="select(usage, '+')"
+              *ngIf="i == usage.count + (usage.selected || 0) + 1"
+            ></i>
+
+            <i
+              class="fa-regular fa-3x fa-circle me-2 text-secondary"
+              style="cursor: pointer"
+              *ngIf="i > usage.count + (usage.selected || 0) + 1"
+            ></i>
+          </span>
+        </ng-container>
+
+        <button class="btn btn-lg btn-success mt-3 d-block" [disabled]="saveDisabled" (click)="useCoupon()">
+          <i class="fa fa-save me-2"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

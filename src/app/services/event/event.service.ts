@@ -43,4 +43,16 @@ export class EventService {
       headers: { 'x-access-token': localStorage.getItem('token') },
     });
   }
+
+  getCoupon(eventId: number, couponId: number) {
+    return axios.get(`events/${eventId}/coupons/${couponId}`, {
+      headers: { 'x-access-token': localStorage.getItem('token') },
+    });
+  }
+
+  useCoupon(eventId: number, couponId: number, usage: any) {
+    return axios.post(`events/${eventId}/coupons/${couponId}`, usage, {
+      headers: { 'x-access-token': localStorage.getItem('token') },
+    });
+  }
 }

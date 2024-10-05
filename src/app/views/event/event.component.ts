@@ -17,6 +17,9 @@ export class EventComponent implements OnInit {
   coupons: Array<any> = new Array();
   couponsFiltered: Array<any> = new Array();
   query: string = '';
+  couponQuery: string = '';
+  searching: boolean = false;
+  searchError: string = '';
 
   constructor(
     private eventService: EventService,
@@ -76,7 +79,7 @@ export class EventComponent implements OnInit {
       };
       for (let a of c.usage) {
         coupon[a.name] = a.count;
-        if(i == 0){
+        if (i == 0) {
           header.push(a.name);
         }
       }
@@ -87,5 +90,23 @@ export class EventComponent implements OnInit {
     const workbook = utils.book_new();
     utils.book_append_sheet(workbook, worksheet, 'Coupons');
     writeFile(workbook, 'Coupons.xlsx', { compression: true });
+  }
+
+  search() {
+    this.searchError = '';
+    let tokens = this.couponQuery.trim().split('-');
+    let token = tokens[tokens.length - 1];
+
+    const [coupon] = _.filter(this.coupons, (c) => {
+      let _tokens = c.number.trim().split('-');
+      let _token = _tokens[_tokens.length - 1];
+      return _token == token;
+    });
+
+    if (coupon) {
+      this.router.navigate([`events/${this.id}/coupons/${coupon.id}`]);
+    } else {
+      this.searchError = 'Invalid coupon';
+    }
   }
 }
